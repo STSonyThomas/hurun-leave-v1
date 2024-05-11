@@ -6,6 +6,7 @@ import React from 'react'
 interface BoardStore {
     board:Board;
     getBoard:()=>void;
+    setBoardState:(board:Board)=> void;
 }
 export const useBoardStore =create<BoardStore>((set)=>(
     {
@@ -15,7 +16,8 @@ export const useBoardStore =create<BoardStore>((set)=>(
         getBoard:async()=>{
             const board = await getTodosGroupedByColumn();
             set({board});
-        }
+        },
+        setBoardState:(board)=>set({board}),
 
     }
 ))

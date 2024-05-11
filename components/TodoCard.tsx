@@ -38,6 +38,8 @@ const TodoCard = ({
           <XCircleIcon className="ml-5 h-8 w-8" />
         </button>
       </div>
+      {/* Add Image/Pdf reader here/Maybe a logic for if there is an image or pdf show "attachments available" */}
+      {/* Show date range in small */}
     </div>
   );
 };
