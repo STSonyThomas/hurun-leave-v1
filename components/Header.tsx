@@ -27,9 +27,10 @@ const Header = () => {
         "
         />
         {/* https://links.papareact.com/c2cdd5 */}
+        {/* https://hurunindia.com/wp-content/uploads/2022/05/logo.png */}
         <Image
-          src=" https://hurunindia.com/wp-content/uploads/2022/05/logo.png"
-          alt="Trello Logo"
+          src="/logo.png"
+          alt="Hurun India Logo"
           width={300}
           height={100}
           className="w-44 md:w-66 pb-10 md:pb-0 object-contain"
