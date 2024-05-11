@@ -4,16 +4,19 @@ import { useBoardStore } from "@/store/BoardStore";
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable, resetServerContext } from "react-beautiful-dnd";
 import Column from "@/components/Column";
-import { GetServerSideProps } from "next";
 
 const Board = () => {
-  const [board, getBoard,setBoardState] = useBoardStore((state) => [
+  const [board, getBoard,setBoardState,updateTodoInDB] = useBoardStore((state) => [
     state.board,
     state.getBoard,
     state.setBoardState,
+    state.updateTodoInDB,
   ]);
+  console.log(board);
+  
   useEffect(() => {
     getBoard();
+    
   }, [getBoard]);
 
   const handleOnDragEnd= (result:DropResult)=>{
@@ -24,8 +27,8 @@ const Board = () => {
     if(type==="column"){
       const entries = Array.from(board.columns.entries());
       const [removed] = entries.splice(source.index,1);
-      console.log(entries);
-      console.log(removed);
+      // console.log(entries);
+      // console.log(removed);
       
       
       entries.splice(destination.index,0,removed);
@@ -39,14 +42,15 @@ const Board = () => {
     const columns =Array.from(board.columns);
     const startColIndex = columns[Number(source.droppableId)];
     const finishColIndex =  columns[Number(destination.droppableId)]
+  
 
-
-    const startCol:Column ={
+    
+    const startCol ={
       id:startColIndex[0],
       todos:startColIndex[1].todos,
     }
 
-    const finishCol:Column = {
+    const finishCol= {
       id:finishColIndex[0],
       todos:finishColIndex[1].todos,
     }
@@ -84,6 +88,9 @@ const Board = () => {
       });
 
       setBoardState({...board,columns:newColumns})
+      //update in db
+      updateTodoInDB(todoMoved,finishCol.id)
+
     }
   }
 
@@ -99,6 +106,7 @@ const Board = () => {
             {Array.from(board.columns.entries()).map(([id, column], index) => (
               <Column key={id} id={id} todos={column.todos} index={index} />
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
